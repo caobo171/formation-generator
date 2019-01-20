@@ -1,6 +1,7 @@
 import React from 'react'
 import Logo from './Logo'
 import Sidebar from './Sidebar'
+import TemplateContainer from '../containers/TemplateContainer'
 
 
 class Main extends React.Component {
@@ -16,7 +17,9 @@ class Main extends React.Component {
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group mr-2">
                                     <button type="button" className="btn btn-sm btn-outline-secondary">Share</button>
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Export</button>
+                                    <button type="button" className="btn btn-sm btn-outline-secondary"
+                                    onClick={()=>{TemplateContainer.exportTemplate()}}
+                                    >Export</button>
                                 </div>
                                 <button type="button" className="btn btn-sm btn-outline-secondary dropdown-toggle">
                                     <span data-feather="calendar"></span>
