@@ -5,7 +5,7 @@ const RESOURCES = ['EC2', 'RDS', 'S3']
 class Sidebar extends React.Component {
 
     onDragStartCaptureHandle = (e)=>{
-        console.log(e.target.childNodes[0].innerText)
+     
         const data= e.target.childNodes[0].innerText
         e.dataTransfer.setData("dataResource", data);
     }

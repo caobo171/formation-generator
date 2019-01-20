@@ -1,18 +1,34 @@
 import React from 'react'
-import  Elements from './elments/Elements'
+import Elements from './elments/Elements'
+import ElementContainer, { BindingContext } from '../containers/ElementContainer'
+import workspaceContainer from '../containers/WorkspaceContainer'
+import { SubscribeOne } from 'unstated-x'
+
 
 class Inspector extends React.Component {
 
 
 
-    generateInspector = () => {
-        return (
-            <h1>Inspector</h1>
-        )
+    generateInspector = (selected) => {
+        if (selected) {
+            const element = ElementContainer.get(selected)
+            window.selected = element
+
+            if (element) {
+                const Content = Elements[element.state.type].generateInspector
+                return (
+                    <BindingContext.Provider value={element.state.data}>
+                        <Content></Content>
+                    </BindingContext.Provider>
+
+                )
+            } else {
+                return null
+            }
+
+        }
     }
     render() {
-
-        const Element = Elements['EC2'].generateInspector
 
         return (
             <React.Fragment>
@@ -22,11 +38,13 @@ class Inspector extends React.Component {
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h4>
-                <ul className="nav flex-column mb-2">
-                    {this.generateInspector()}
-                </ul>
-                <Element></Element>
-                
+                <SubscribeOne to={workspaceContainer} bind={['selected']}>
+                    {ws => (
+                        <ul className="nav flex-column mb-2">
+                            {this.generateInspector(ws.state.selected)}
+                        </ul>
+                    )}
+                </SubscribeOne>
             </React.Fragment>
         )
 
