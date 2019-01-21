@@ -1,9 +1,18 @@
 import {Container } from 'unstated-x'
-import ElementContainer from './ElementContainer'
+import ElementContainer,{ PathContainer } from './ElementContainer'
 
 class TemplateContainer extends Container {
 
     static template = {}
+
+
+    constructor(){
+        super()
+        this.state = {
+            resources: Array.from(ElementContainer.instances),
+            paths:Array.from(PathContainer.instances)
+        }
+    }
    
     static exportTemplate = ()=> {
 
@@ -27,4 +36,5 @@ class TemplateContainer extends Container {
     
 }
 
-export default TemplateContainer
+const templateContainer = new TemplateContainer()
+export default templateContainer

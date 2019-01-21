@@ -1,6 +1,7 @@
 import React from 'react'
 import ElementContainer, { PathContainer } from '../containers/ElementContainer'
 import workspaceContainer from '../containers/WorkspaceContainer'
+import templateContainer from '../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x';
 import renderPath from '../helpers/renderPath'
 
@@ -99,17 +100,17 @@ class PathBox extends React.Component {
 
 
     onMouseDownHandle = (e) => {
-        const data = e.target.getAttribute('data-el')
+        const point = e.target.getAttribute('data-el')
         const path = e.target.getAttribute('data-path')
 
-        if (data) {
+        if (point) {
 
             const pathStart = {
                 x: Number(e.target.getAttribute('cx')),
                 y: Number(e.target.getAttribute('cy')),
 
             }
-            this.setState({ pathStart, pathEnd: pathStart, startId: data, isPath: true, onMouseDown: true })
+            this.setState({ pathStart, pathEnd: pathStart, startId: point, isPath: true, onMouseDown: true })
         } else if (path) {
 
             workspaceContainer.setState({selected:path})
@@ -150,7 +151,8 @@ class PathBox extends React.Component {
                 peak: { x: 0, y: 0 }
             })
             //this.setState({ paths: Array.from(PathContainer.instances) })
-            this.props.onPathsChange(Array.from(PathContainer.instances))
+            //this.props.onPathsChange(Array.from(PathContainer.instances))
+            templateContainer.setState({ paths: Array.from(PathContainer.instances)})
         }
 
         if (this.state.pathElement) {

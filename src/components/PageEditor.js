@@ -2,11 +2,12 @@ import React from 'react';
 import ElementContainer, { PathContainer } from '../containers/ElementContainer'
 import Elements from './elments/Elements';
 import workspaceContainer from '../containers/WorkspaceContainer'
+import templateContainer from '../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x'
-import PathBox from '../helpers/PathBox'
+import PathBox from './PathBox'
 import renderElement from '../helpers/renderElement'
 
-class Logo extends React.Component {
+class PageEditor extends React.Component {
 
 
     state = {
@@ -17,8 +18,12 @@ class Logo extends React.Component {
 
     onMouseDownHandle = (e) => {
         const selected = e.target.parentNode.getAttribute('data-element')
+        const point = e.target.getAttribute('data-el')
+        const path = e.target.getAttribute('data-path')
         if (selected) {
             workspaceContainer.setState({ selected })
+        }else if(!selected && !point && !path){
+            workspaceContainer.setState({ selected:null})
         }
     }
 
@@ -29,18 +34,16 @@ class Logo extends React.Component {
 
     onDeleteHandle = (e) => {
         const path = PathContainer.get(workspaceContainer.state.selected)
-        if(path){
+        if (path) {
             PathContainer.deleteElement(workspaceContainer.state.selected)
             console.log('check DELETED', Array.from(PathContainer.instances))
             workspaceContainer.setState({ selected: null }, () => {
-                this.setState({
-                    paths: Array.from(PathContainer.instances)
-                })
+                templateContainer.setState({ paths: Array.from(PathContainer.instances) })
             })
-        }else{
+        } else {
             ElementContainer.deleteElement(workspaceContainer.state.selected)
             workspaceContainer.setState({ selected: null }, () => {
-                this.setState({
+                templateContainer.setState({
                     paths: Array.from(PathContainer.instances),
                     resources: Array.from(ElementContainer.instances)
                 })
@@ -59,7 +62,7 @@ class Logo extends React.Component {
         if (type) {
 
             const data = ElementContainer.addElement({ type, x, y })
-            this.setState({ resources: Array.from(ElementContainer.instances) })
+            templateContainer.setState({ resources: Array.from(ElementContainer.instances) })
         } else if (id) {
 
             const elContainer = ElementContainer.get(id)
@@ -114,21 +117,27 @@ class Logo extends React.Component {
                 onMouseDown={this.onMouseDownHandle}
                 onMouseMoveCapture={this.onMouseMoveHandle}
                 onDragCapture={this.onDragOverCaptureHandle}>
-                <PathBox {...this.props} paths={this.state.paths} onPathsChange={(paths) => {
-                    this.setState({ paths })
-                }}>
-                    {renderElement(this.state.resources)}
-                </PathBox>
+
+                <SubscribeOne to={templateContainer} bind={['resources', 'paths']}>
+                    {
+                        tplContainer => (
+                            <PathBox {...this.props} paths={tplContainer.state.paths}>
+                                {renderElement(tplContainer.state.resources)}
+                            </PathBox>
+                        )
+                    }
+                </SubscribeOne>
+
                 <SubscribeOne to={workspaceContainer} bind={['selected']} >
                     {ws => {
                         if (ws.state.selected) {
                             let element = ElementContainer.get(ws.state.selected)
-                            if(!element){
+                            if (!element) {
                                 element = PathContainer.get(ws.state.selected)
                             }
-                            const {top,left} = element.box
-                      
-         
+                            const { top, left } = element.box
+
+
                             return (
                                 <div style={{ top: `${top - 20}px`, left: `${left - 20}px`, position: 'fixed' }}>
                                     <button onClick={this.onDeleteHandle}><i class="far fa-trash-alt"></i></button>
@@ -145,5 +154,5 @@ class Logo extends React.Component {
     }
 }
 
-export default Logo
+export default PageEditor
 

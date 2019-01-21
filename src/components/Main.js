@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from './Logo'
+import PageEditor from './PageEditor'
 import Sidebar from './Sidebar'
 import TemplateContainer from '../containers/TemplateContainer'
 
@@ -28,7 +28,7 @@ class Main extends React.Component {
                             </div>
                         </div>
 
-                        <Logo className="my-4 w-100" id="myChart" width="900" height="380"></Logo>
+                        <PageEditor className="my-4 w-100" id="myChart" width="900" height="380"></PageEditor>
 
 
                     </main>
