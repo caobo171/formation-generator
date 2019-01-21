@@ -16,7 +16,9 @@ class Main extends React.Component {
                             <h1 className="h2">Dashboard</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group mr-2">
-                                    <button type="button" className="btn btn-sm btn-outline-secondary">Share</button>
+                                    <button type="button" className="btn btn-sm btn-outline-secondary"
+                                    onClick={()=>{TemplateContainer.exportAndRun()}}
+                                    >Export && Run</button>
                                     <button type="button" className="btn btn-sm btn-outline-secondary"
                                     onClick={()=>{TemplateContainer.exportTemplate()}}
                                     >Export</button>
@@ -28,7 +30,7 @@ class Main extends React.Component {
                             </div>
                         </div>
 
-                        <PageEditor className="my-4 w-100" id="myChart" width="900" height="380"></PageEditor>
+                        <PageEditor className="my-4 w-100" id="myChart" width="100%" height="500"></PageEditor>
 
 
                     </main>

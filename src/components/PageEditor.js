@@ -22,7 +22,7 @@ class PageEditor extends React.Component {
         const path = e.target.getAttribute('data-path')
         if (selected) {
             workspaceContainer.setState({ selected })
-        }else if(!selected && !point && !path){
+        }else if(!selected && !point && !path && e.target.tagName==='svg'){
             workspaceContainer.setState({ selected:null})
         }
     }

@@ -183,7 +183,7 @@ class PathBox extends React.Component {
                 onMouseMove={this.onMouseMoveHandle}
                 onMouseDown={this.onMouseDownHandle}
                 onMouseUp={this.onMouseUpHandle}
-                style={{ outline: '#4CAF50 solid 10px' }}
+                style={{ outline: '#4CAF50 solid 5px' }}
                 width={this.props.width} height={this.props.height} preserveAspectRatio="xMidYMid meet">
 
                 <g stroke="black" strokeWidth="3" fill="black" >

@@ -2,7 +2,7 @@ import { Container } from 'unstated-x'
 import ElementContainer, { PathContainer } from './ElementContainer'
 import { Maps } from '../helpers/mapping'
 import axios from 'axios'
-import {Env } from '../env'
+import { Env } from '../env'
 
 export class TemplateContainer extends Container {
 
@@ -14,11 +14,12 @@ export class TemplateContainer extends Container {
         this.state = {
             resources: Array.from(ElementContainer.instances),
             paths: Array.from(PathContainer.instances),
-            name:'caobo171222'
+            name: 'caobo171222'
         }
     }
 
     static exportTemplate = () => {
+        let isValid = true;
 
         const resources = Array.from(ElementContainer.instances).map(e => e[1])
 
@@ -39,7 +40,7 @@ export class TemplateContainer extends Container {
         resources.forEach(e => {
             if (!e.data.state.Name) {
                 console.log('checkdda', e.data)
-                alert('Có một số resources chưa được đặt tên !')
+                isValid = false
                 return
             } else {
                 switch (e.state.type) {
@@ -55,7 +56,7 @@ export class TemplateContainer extends Container {
                                 "InstanceType": e.data.state.InstanceType,
                                 "ImageId": {
                                     "Fn::FindInMap": ["AWSRegionArch2AMI", { "Ref": "AWS::Region" },
-                                        { "Fn::FindInMap": ["AWSInstanceType2Arch",  e.data.state.InstanceType , "Arch"] }]
+                                        { "Fn::FindInMap": ["AWSInstanceType2Arch", e.data.state.InstanceType, "Arch"] }]
                                 },
                                 "Tags": e.data.state.Tags
 
@@ -69,20 +70,32 @@ export class TemplateContainer extends Container {
             }
         })
 
+        if (isValid) {
+            return JSON.stringify(template)
+        } else {
+            return false
+        }
         console.log('check ', JSON.stringify(template))
 
-        return JSON.stringify(template)
+
 
     }
 
-    static exportAndRun = async ()=>{
+    static exportAndRun = async () => {
+        //const isValid = true
         const template = TemplateContainer.exportTemplate()
-        const params  = {
-            StackName :templateContainer.state.name,
-            TemplateBody : template
+        if (!template) {
+            alert('khong dung roii lam lai di !!')
+        } else {
+            const params = {
+                StackName: templateContainer.state.name,
+                TemplateBody: template
+            }
+
+            const data = await axios.post(`${Env.URL}/createcloudformation `, params)
+            console.log('chekkkkkk', data)
         }
 
-        const data = await axios.post(Env.URL,params) 
     }
 
 }
