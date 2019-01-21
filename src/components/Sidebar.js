@@ -1,7 +1,7 @@
 import React from 'react'
 import Inspector from './Inspector'
+import Elements from './elments/Elements'
 
-const RESOURCES = ['EC2', 'RDS', 'S3']
 class Sidebar extends React.Component {
 
     onDragStartCaptureHandle = (e)=>{
@@ -10,8 +10,7 @@ class Sidebar extends React.Component {
         e.dataTransfer.setData("dataResource", data);
     }
     render() {
-
-        
+    
         return (
             <nav className="col-md-2 d-none d-md-block bg-light sidebar">
                 <div className="sidebar-sticky">
@@ -23,7 +22,7 @@ class Sidebar extends React.Component {
                         </li>
                         <React.Fragment>
                             {
-                                RESOURCES.map(e => (
+                                Object.keys(Elements).map(e => (
                                     <li className="nav-item" key={e} >
                                         <a className="nav-link active" 
                                         draggable={true} onDragStartCapture={this.onDragStartCaptureHandle} href="#">

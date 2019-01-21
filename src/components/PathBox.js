@@ -14,7 +14,7 @@ class PathBox extends React.Component {
         pathStart: null,
         pathEnd: null,
         isPath: false,
- 
+
 
         editPathStart: false,
         pathElement: null,
@@ -23,12 +23,10 @@ class PathBox extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log('checkjk', prevState.paths, nextProps.paths)
-        if (prevState.paths !== nextProps.paths && nextProps.paths!==null) {
-            console.log('check vao roi')
+
+        if (prevState.paths !== nextProps.paths && nextProps.paths !== null) {
             return { paths: nextProps.paths }
         } else {
-            console.log('check ra roi')
             return null
         }
     }
@@ -113,7 +111,7 @@ class PathBox extends React.Component {
             this.setState({ pathStart, pathEnd: pathStart, startId: point, isPath: true, onMouseDown: true })
         } else if (path) {
 
-            workspaceContainer.setState({selected:path})
+            workspaceContainer.setState({ selected: path })
             this.setState({ editPathStart: true, pathElement: path }, () => {
                 this.prevX = e.clientX;
                 this.prevY = e.clientY;
@@ -152,7 +150,7 @@ class PathBox extends React.Component {
             })
             //this.setState({ paths: Array.from(PathContainer.instances) })
             //this.props.onPathsChange(Array.from(PathContainer.instances))
-            templateContainer.setState({ paths: Array.from(PathContainer.instances)})
+            templateContainer.setState({ paths: Array.from(PathContainer.instances) })
         }
 
         if (this.state.pathElement) {
@@ -188,20 +186,20 @@ class PathBox extends React.Component {
                 style={{ outline: '#4CAF50 solid 10px' }}
                 width={this.props.width} height={this.props.height} preserveAspectRatio="xMidYMid meet">
 
-                <g stroke="black" stroke-width="3" fill="black" >
+                <g stroke="black" strokeWidth="3" fill="black" >
                     <circle data-el={dataElement}
                         onClick={this.onCreatePathHandle}
                         style={{ cursor: 'pointer' }}
-                        cx={top.x} cy={top.y - add} r={r} />
+                        cx={top.x || 0} cy={top.y - add || 0} r={r} />
                     <circle data-el={dataElement} onClick={this.onCreatePathHandle}
                         style={{ cursor: 'pointer' }}
-                        cx={left.x - add} cy={left.y} r={r} />
+                        cx={left.x - add || 0} cy={left.y || 0} r={r} />
                     <circle data-el={dataElement} onClick={this.onCreatePathHandle}
                         style={{ cursor: 'pointer' }}
-                        cx={right.x + add} cy={right.y} r={r} />
+                        cx={right.x + add || 0} cy={right.y || 0} r={r} />
                     <circle data-el={dataElement} onClick={this.onCreatePathHandle}
                         style={{ cursor: 'pointer' }}
-                        cx={bottom.x} cy={bottom.y + add} r={r} />
+                        cx={bottom.x || 0} cy={bottom.y + add || 0} r={r} />
                 </g>
 
                 <React.Fragment>
@@ -222,7 +220,7 @@ class PathBox extends React.Component {
                         ws => {
                             if (ws.state.selected) {
                                 let elementContainer = ElementContainer.get(ws.state.selected)
-                                if(!elementContainer){
+                                if (!elementContainer) {
                                     elementContainer = PathContainer.get(ws.state.selected)
                                 }
                                 return (
@@ -230,13 +228,13 @@ class PathBox extends React.Component {
                                         {element => {
                                             const { x, y, id } = element.state
                                             const box2 = this.convertToBox(this.refSVG.current.getBoundingClientRect(), element.box)
-                                            
+
                                             return (
                                                 <React.Fragment>
                                                     <React.Fragment>
                                                         {box2 && !isPath && (
                                                             <g>
-                                                                <line x1={box2.left} y1={box2.top-3} x2={box2.right} y2={box2.top-3}
+                                                                <line x1={box2.left} y1={box2.top - 3} x2={box2.right} y2={box2.top - 3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
                                                                 <line x1={box2.left} y1={box2.bottom} x2={box2.right} y2={box2.bottom}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />

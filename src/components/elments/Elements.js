@@ -1,7 +1,7 @@
 
-import EC2 from './EC2'
+import EC2Instance from './EC2Instance'
 
 
-export default {
-    EC2
+export default  {
+    "AWS::EC2::Instance":EC2Instance
 }

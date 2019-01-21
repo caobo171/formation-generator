@@ -140,7 +140,7 @@ class PageEditor extends React.Component {
 
                             return (
                                 <div style={{ top: `${top - 20}px`, left: `${left - 20}px`, position: 'fixed' }}>
-                                    <button onClick={this.onDeleteHandle}><i class="far fa-trash-alt"></i></button>
+                                    <button onClick={this.onDeleteHandle}><i className="far fa-trash-alt"></i></button>
                                 </div>
                             )
                         } else {

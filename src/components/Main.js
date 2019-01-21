@@ -1,7 +1,7 @@
 import React from 'react'
 import PageEditor from './PageEditor'
 import Sidebar from './Sidebar'
-import TemplateContainer from '../containers/TemplateContainer'
+import {TemplateContainer} from '../containers/TemplateContainer'
 
 
 class Main extends React.Component {

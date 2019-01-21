@@ -37,6 +37,10 @@ class ElementContainer extends Container {
 
     }
 
+    get data(){
+        return this.state.data
+    }
+
 
     get dom() {
         return this.domNodeRef.current
