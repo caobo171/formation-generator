@@ -37,25 +37,31 @@ class EC2SecurityGroup extends React.Component {
                                         <label>GroupDescription </label>
                                         <input type="text" className="form-control" placeholder="Enter Description ..."
                                             onChange={(e) => data.setState({ GroupDescription: e.target.value })}
-                                            value={data.state.Name}>
+                                            value={data.state.GroupDescription}>
                                         </input>
                                     </div>
 
                                     <label>SecurityGroupIngress</label>
                                     <React.Fragment>
-                                        {data.state.SecurityGroupIngress.map(e => (
-                                            <div className="row" key={e.Key} id="form">
-                                                <div className="col col-4">
-                                                    <label><strong>{e.Key}</strong></label>
+                                        {data.state.SecurityGroupIngress.map((e,index) => (
+                                            <div className="row" key={index} id="form">
+                                                <div className="col col-3">
+                                                    <label><strong>{e.IpProtocol}</strong></label>
                                                 </div>
-                                                <div className="col col-4">
-                                                    <label>{e.Value}</label>
+                                                <div className="col col-3">
+                                                    <label>{e.FromPort}</label>
+                                                </div>
+                                                <div className="col col-3">
+                                                    <label>{e.ToPort}</label>
+                                                </div>
+                                                <div className="col col-3">
+                                                    <label>{e.CidrIp}</label>
                                                 </div>
                                             </div>
                                         ))}
                                     </React.Fragment>
 
-                                    <form className="row" ref={EC2SecurityGroup.ref}>
+                                    <form className="form-group" ref={EC2SecurityGroup.ref}>
                                         <input type="text" className="form-control" name="IpProtocol" placeholder="IpProtocol" defaultValue="tcp" />
 
                                         <input type="number" className="form-control" name="FromPort" placeholder="FromPort" defaultValue="22" />
@@ -72,7 +78,7 @@ class EC2SecurityGroup extends React.Component {
                                                 const elements = EC2SecurityGroup.ref.current.elements
                                                 let securityGroupIngress = data.state.SecurityGroupIngress
                                                 let object = {}
-                                                for (let i = 0; i < elements.length; i++) {
+                                                for (let i = 0; i < elements.length-1; i++) {
                                                     object[elements[i].name] = elements[i].value
                                                 }
                                                 securityGroupIngress.push(object)

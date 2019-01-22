@@ -18,7 +18,10 @@ class Inspector extends React.Component {
                 const Content = Elements[element.state.type].generateInspector
                 return (
                     <BindingContext.Provider value={element.state.data}>
+                        <div style={{overflow:'scroll',height:'430px',width:'100%',overflowX:'auto',fontSize:'14px'}}>
                         <Content></Content>
+                        </div>
+                   
                     </BindingContext.Provider>
 
                 )
