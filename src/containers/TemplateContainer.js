@@ -22,7 +22,7 @@ export class TemplateContainer extends Container {
         let isValid = true;
 
         const resources = Array.from(ElementContainer.instances).map(e => e[1])
-        const paths = Array.from(PathContainer.instances).map(e=>e[1])
+        const paths = Array.from(PathContainer.instances).map(e => e[1])
 
         let template = {
             "AWSTemplateFormatVersion": "2010-09-09",
@@ -63,13 +63,22 @@ export class TemplateContainer extends Container {
                         }
                         break
                     }
-                    case "AWS::EC2::SecurityGroup":{
+                    case "AWS::EC2::SecurityGroup": {
                         template.Resources[e.data.state.Name] = {
-                            "Type":e.state.type,
-                            "Properties":{
-                                "GroupName":e.data.state.Name,
-                                "GroupDescription":e.data.state.GroupDescription,
-                                "SecurityGroupIngress":e.data.state.SecurityGroupIngress
+                            "Type": e.state.type,
+                            "Properties": {
+                                "GroupName": e.data.state.Name,
+                                "GroupDescription": e.data.state.GroupDescription,
+                                "SecurityGroupIngress": e.data.state.SecurityGroupIngress
+                            }
+                        }
+                    }
+                    case "AWS::IAM::InstanceProfile": {
+                        template.Resources[e.data.state.Name] = {
+                            "Type": e.state.type,
+                            "Properties": {
+                                "InstanceProfileName": e.data.state.Name,
+                                "Roles": e.data.state.Roles
                             }
                         }
                     }
@@ -81,38 +90,45 @@ export class TemplateContainer extends Container {
 
         window.template = template
 
-        paths.forEach(e=>{
+        paths.forEach(e => {
             const point1 = ElementContainer.get(e.state.point1)
             window.point1 = point1
             const point2 = ElementContainer.get(e.state.point2)
             window.point2 = point2
-            if(point1.state.type==='AWS::EC2::Instance'){
+            if (point1.state.type === 'AWS::EC2::Instance') {
                 let refs = template.Resources[point1.data.state.Name].Properties[`${point2.state.type.split('::')[2]}s`]
-                if(refs && refs.length){
+                if (refs && refs.length) {
 
-                    refs.push({"Ref":point2.data.state.Name})
+                    refs.push({ "Ref": point2.data.state.Name })
                     template.Resources[point1.data.state.Name].Properties[`${point2.state.type.split('::')[2]}s`]
-                    = refs
-                }else {
+                        = refs
+                } else {
                     template.Resources[point1.data.state.Name].Properties[`${point2.state.type.split('::')[2]}s`]
-                    = [{"Ref":point2.data.state.Name}]
+                        = [{ "Ref": point2.data.state.Name }]
                 }
-            }else if(point2.state.type==='AWS::EC2::Instance'){
+            } else if (point2.state.type === 'AWS::EC2::Instance') {
                 let refs = template.Resources[point2.data.state.Name].Properties[`${point1.state.type.split('::')[2]}s`]
-                if(refs.length){
+                if (refs.length) {
 
-                    refs.push({"Ref":point1.data.state.Name})
+                    refs.push({ "Ref": point1.data.state.Name })
                     template.Resources[point2.data.state.Name].Properties[`${point1.state.type.split('::')[2]}s`]
-                    = refs
-                }else {
+                        = refs
+                } else {
                     template.Resources[point2.data.state.Name].Properties[`${point1.state.type.split('::')[2]}s`]
-                    = [{"Ref":point2.data.state.Name}]
+                        = [{ "Ref": point2.data.state.Name }]
                 }
+            }
+
+            
+            if(point1.state.type==='AWS::EC2::Instance' && point2.state.type==='AWS::IAM::InstanceProfile'){
+                template.Resources[point1.data.state.Name].Properties["IamInstanceProfile"]=point2.data.state.Name
+            }else if(point2.state.type==='AWS::EC2::Instance' && point1.state.type==='AWS::IAM::InstanceProfile'){
+                template.Resources[point2.data.state.Name].Properties["IamInstanceProfile"]=point1.data.state.Name
             }
         })
 
         if (isValid) {
-            console.log('check ',JSON.stringify(template))
+            console.log('check ', JSON.stringify(template))
             return JSON.stringify(template)
         } else {
             return false
