@@ -78,7 +78,7 @@ class EC2Instance extends React.Component {
                                             <input type="text" className="form-control" placeholder="Value" />
                                         </div>
                                         <div className="col col-2">
-                                            <button className="btn fas fa-plus-circle"
+                                            <button className="btn fas fa-plus-circle fa-x2"
                                                 onClick={e => {
                                                     //console.log('check', document.getElementById('form').value)
                                                     const key = EC2Instance.ref.current.elements[0].value

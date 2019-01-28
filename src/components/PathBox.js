@@ -207,7 +207,7 @@ class PathBox extends React.Component {
                         <path d={`M ${pathStart.x} ${pathStart.y} 
                         q 0 0 ${pathEnd.x - pathStart.x} ${pathEnd.y - pathStart.y}`}
                             style={{ pointerEvents: 'none' }}
-                            stroke="blue" stroke-width="5" fill="none" />
+                            stroke="blue" strokeWidth="5" fill="none" />
                     )}
                 </React.Fragment>
 

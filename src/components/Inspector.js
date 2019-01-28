@@ -3,7 +3,7 @@ import Elements from './elments/Elements'
 import ElementContainer, { BindingContext } from '../containers/ElementContainer'
 import workspaceContainer from '../containers/WorkspaceContainer'
 import { SubscribeOne } from 'unstated-x'
-
+import CustomField from '../UIElements/CustomField'
 
 class Inspector extends React.Component {
 
@@ -18,9 +18,8 @@ class Inspector extends React.Component {
                 const Content = Elements[element.state.type].generateInspector
                 return (
                     <BindingContext.Provider value={element.state.data}>
-                        <div style={{overflow:'scroll',height:'430px',width:'100%',overflowX:'auto',fontSize:'14px'}}>
+                       
                         <Content></Content>
-                        </div>
                    
                     </BindingContext.Provider>
 
@@ -34,7 +33,7 @@ class Inspector extends React.Component {
     render() {
 
         return (
-            <React.Fragment>
+            <div className="col-md-4">
                 <h4 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     Inspector
                     <a className="d-flex align-items-center text-muted" href="#">
@@ -48,7 +47,9 @@ class Inspector extends React.Component {
                         </ul>
                     )}
                 </SubscribeOne>
-            </React.Fragment>
+                <CustomField></CustomField>
+                
+            </div>
         )
 
     }
