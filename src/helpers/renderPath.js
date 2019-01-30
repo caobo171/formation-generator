@@ -17,7 +17,7 @@ export default function renderPath(arrayOfPath) {
                                     <path ref={path.domNodeRef} d={`M ${start.x} ${start.y} q ${peak.x} ${peak.y} ${end.x - start.x} ${end.y - start.y}`}
                                         draggable = {false}
                                         data-path={e[0]}
-                                        stroke="blue" stroke-width="2" fill="none" />
+                                        stroke="blue" strokeWidth="2" fill="none" />
                                 )
                             }}
                         </SubscribeOne>

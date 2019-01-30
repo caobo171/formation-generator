@@ -1,5 +1,5 @@
 import {Container } from 'unstated-x'
-
+import React from 'react'
 class WorkSpaceContainer extends Container {
 
     state={
@@ -11,5 +11,7 @@ class WorkSpaceContainer extends Container {
 }
 
 const workSpaceContainer = new WorkSpaceContainer()
+
+export let refSVG = React.createRef()
 
 export default workSpaceContainer 

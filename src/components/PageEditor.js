@@ -1,7 +1,7 @@
 import React from 'react';
 import ElementContainer, { PathContainer } from '../containers/ElementContainer'
 import Elements from './elments/Elements';
-import workspaceContainer from '../containers/WorkspaceContainer'
+import workspaceContainer,{refSVG} from '../containers/WorkspaceContainer'
 import templateContainer from '../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x'
 import PathBox from './PathBox'
@@ -13,7 +13,8 @@ class PageEditor extends React.Component {
     state = {
         resources: [],
         selectElement: null,
-        paths: []
+        paths: [],
+        isMovingElement: false
     }
 
     onMouseDownHandle = (e) => {
@@ -21,50 +22,19 @@ class PageEditor extends React.Component {
         const point = e.target.getAttribute('data-el')
         const path = e.target.getAttribute('data-path')
         if (selected) {
+            this.setState({ isMovingElement: selected })
             workspaceContainer.setState({ selected })
-        }else if(!selected && !point && !path && e.target.tagName==='svg'){
-            workspaceContainer.setState({ selected:null})
+        } else if (!selected && !point && !path && e.target.tagName === 'svg') {
+            workspaceContainer.setState({ selected: null })
         }
     }
 
+    onMouseMoveHandle = (e) => {
+        if (this.state.isMovingElement) {
+            const id = this.state.isMovingElement
+            const { x, y } = { x: e.clientX - refSVG.current.getBoundingClientRect().left, y: e.clientY - refSVG.current.getBoundingClientRect().top }
 
-    onDragOverCaptureHandle = (e) => {
-        e.preventDefault()
-    }
-
-    onDeleteHandle = (e) => {
-        const path = PathContainer.get(workspaceContainer.state.selected)
-        if (path) {
-            PathContainer.deleteElement(workspaceContainer.state.selected)
-            console.log('check DELETED', Array.from(PathContainer.instances))
-            workspaceContainer.setState({ selected: null }, () => {
-                templateContainer.setState({ paths: Array.from(PathContainer.instances) })
-            })
-        } else {
-            ElementContainer.deleteElement(workspaceContainer.state.selected)
-            workspaceContainer.setState({ selected: null }, () => {
-                templateContainer.setState({
-                    paths: Array.from(PathContainer.instances),
-                    resources: Array.from(ElementContainer.instances)
-                })
-            })
-        }
-
-
-    }
-
-    onDropHandle = (e) => {
-
-        const type = e.dataTransfer.getData("dataResource");
-        const id = e.dataTransfer.getData("id")
-        const { x, y } = { x: e.clientX - e.target.getBoundingClientRect().left, y: e.clientY - e.target.getBoundingClientRect().top }
-
-        if (type) {
-
-            const data = ElementContainer.addElement({ type, x, y })
-            templateContainer.setState({ resources: Array.from(ElementContainer.instances) })
-        } else if (id) {
-
+            console.log('checkkk target ',e.target)
             const elContainer = ElementContainer.get(id)
             const { addX, addY } = { addX: x - elContainer.state.x, addY: y - elContainer.state.y }
 
@@ -103,6 +73,49 @@ class PageEditor extends React.Component {
                 }
             })
         }
+    }
+
+    onMouseUpHandle = (e)=>{
+        this.setState({isMovingElement:false})
+    }
+
+
+    onDragOverCaptureHandle = (e) => {
+        e.preventDefault()
+    }
+
+    onDeleteHandle = (e) => {
+        const path = PathContainer.get(workspaceContainer.state.selected)
+        if (path) {
+            PathContainer.deleteElement(workspaceContainer.state.selected)
+            console.log('check DELETED', Array.from(PathContainer.instances))
+            workspaceContainer.setState({ selected: null }, () => {
+                templateContainer.setState({ paths: Array.from(PathContainer.instances) })
+            })
+        } else {
+            ElementContainer.deleteElement(workspaceContainer.state.selected)
+            workspaceContainer.setState({ selected: null }, () => {
+                templateContainer.setState({
+                    paths: Array.from(PathContainer.instances),
+                    resources: Array.from(ElementContainer.instances)
+                })
+            })
+        }
+
+
+    }
+
+    onDropHandle = (e) => {
+
+        const type = e.dataTransfer.getData("dataResource");
+        const id = e.dataTransfer.getData("id")
+        const { x, y } = { x: e.clientX - e.target.getBoundingClientRect().left, y: e.clientY - e.target.getBoundingClientRect().top }
+
+        if (type) {
+
+            const data = ElementContainer.addElement({ type, x, y })
+            templateContainer.setState({ resources: Array.from(ElementContainer.instances) })
+        } 
 
         e.preventDefault()
     }
@@ -116,7 +129,8 @@ class PageEditor extends React.Component {
                 onDropCapture={this.onDropHandle}
                 onMouseDown={this.onMouseDownHandle}
                 onMouseMoveCapture={this.onMouseMoveHandle}
-                onDragCapture={this.onDragOverCaptureHandle}>
+                onMouseUp = {this.onMouseUpHandle}
+            >
 
                 <SubscribeOne to={templateContainer} bind={['resources', 'paths']}>
                     {

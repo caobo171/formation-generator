@@ -39,7 +39,7 @@ class Sidebar extends React.Component {
         return (
             <React.Fragment>
                 <div class=" sidebar1" style={{
-                    width:"2%",
+                    width:"3%",
                     background: '#68a0f9',
                 }}>
                     <div class="left-navigation mt-4 ml-2">
