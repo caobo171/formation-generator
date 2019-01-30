@@ -234,13 +234,13 @@ class PathBox extends React.Component {
                                                     <React.Fragment>
                                                         {box2 && !isPath && (
                                                             <g>
-                                                                <line x1={box2.left} y1={box2.top - 3} x2={box2.right} y2={box2.top - 3}
+                                                                <line x1={box2.left -3} y1={box2.top - 3} x2={box2.right +3} y2={box2.top - 3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
-                                                                <line x1={box2.left} y1={box2.bottom} x2={box2.right} y2={box2.bottom}
+                                                                <line x1={box2.left -3} y1={box2.bottom +3} x2={box2.right +3} y2={box2.bottom +3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
-                                                                <line x1={box2.left} y1={box2.bottom} x2={box2.left} y2={box2.top}
+                                                                <line x1={box2.left -3 } y1={box2.bottom +3} x2={box2.left -3} y2={box2.top -3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
-                                                                <line x1={box2.right} y1={box2.bottom} x2={box2.right} y2={box2.top}
+                                                                <line x1={box2.right +3} y1={box2.bottom +3} x2={box2.right +3} y2={box2.top -3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
                                                             </g>
                                                         )}

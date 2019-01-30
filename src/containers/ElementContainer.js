@@ -125,3 +125,4 @@ export const BindingContext = React.createContext({})
 
 export default ElementContainer
 window.ElementContainer = ElementContainer
+window.PathContainer = PathContainer

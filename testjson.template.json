@@ -400,7 +400,7 @@
         }
     },
     "Resources": {
-        "agagag": {
+        "caonguyenvan": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "InstanceType": "t2.micro",
@@ -422,28 +422,20 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "agagag"
+                        "Value": "caonguyenvan"
                     }
                 ],
                 "SecurityGroups": [
                     {
-                        "Ref": "agag"
+                        "Ref": "nothing"
                     }
                 ]
             }
         },
-        "agag": {
+        "nothing": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
-                "GroupName": "agag",
-                "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp": "0.0.0.0/0"
-                    }
-                ]
+                "InstanceProfileName": "nothing"
             }
         }
     },

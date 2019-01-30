@@ -14,7 +14,7 @@ export class TemplateContainer extends Container {
         this.state = {
             resources: Array.from(ElementContainer.instances),
             paths: Array.from(PathContainer.instances),
-            name: 'caobo1712232'
+            name: 'caobo17122s2'
         }
     }
 
@@ -45,10 +45,15 @@ export class TemplateContainer extends Container {
                 switch (e.state.type) {
                     case "AWS::EC2::Instance": {
                         let tags = e.data.state.Tags
-                        tags.push({
-                            "Key": "Name",
-                            "Value": e.data.state.Name
-                        })
+                        if (tags.map(e => e.Key).indexOf('Name') !== -1) {
+                            tags[tags.map(e => e.Key).indexOf('Name')].Value = e.data.state.Name
+                        } else {
+                            tags.push({
+                                "Key": "Name",
+                                "Value": e.data.state.Name
+                            })
+                        }
+
                         template.Resources[e.data.state.Name] = {
                             "Type": e.state.type,
                             "Properties": {
@@ -72,6 +77,7 @@ export class TemplateContainer extends Container {
                                 "SecurityGroupIngress": e.data.state.SecurityGroupIngress
                             }
                         }
+                        break
                     }
                     case "AWS::IAM::InstanceProfile": {
                         template.Resources[e.data.state.Name] = {
@@ -81,6 +87,8 @@ export class TemplateContainer extends Container {
                                 "Roles": e.data.state.Roles
                             }
                         }
+
+                        break
                     }
 
                 }
@@ -119,13 +127,14 @@ export class TemplateContainer extends Container {
                 }
             }
 
-            
-            if(point1.state.type==='AWS::EC2::Instance' && point2.state.type==='AWS::IAM::InstanceProfile'){
-                template.Resources[point1.data.state.Name].Properties["IamInstanceProfile"]=point2.data.state.Name
-            }else if(point2.state.type==='AWS::EC2::Instance' && point1.state.type==='AWS::IAM::InstanceProfile'){
-                template.Resources[point2.data.state.Name].Properties["IamInstanceProfile"]=point1.data.state.Name
+
+            if (point1.state.type === 'AWS::EC2::Instance' && point2.state.type === 'AWS::IAM::InstanceProfile') {
+                template.Resources[point1.data.state.Name].Properties["IamInstanceProfile"] = point2.data.state.Name
+            } else if (point2.state.type === 'AWS::EC2::Instance' && point1.state.type === 'AWS::IAM::InstanceProfile') {
+                template.Resources[point2.data.state.Name].Properties["IamInstanceProfile"] = point1.data.state.Name
             }
         })
+
 
         if (isValid) {
             console.log('check ', JSON.stringify(template))
