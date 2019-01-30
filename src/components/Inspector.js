@@ -33,7 +33,7 @@ class Inspector extends React.Component {
     render() {
 
         return (
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <h4 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     Inspector
                     <a className="d-flex align-items-center text-muted" href="#">
