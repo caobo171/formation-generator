@@ -1,6 +1,6 @@
 import React from 'react'
 import ElementContainer, { PathContainer } from '../containers/ElementContainer'
-import workspaceContainer from '../containers/WorkspaceContainer'
+import workspaceContainer,{refSVG} from '../containers/WorkspaceContainer'
 import templateContainer from '../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x';
 import renderPath from '../helpers/renderPath'
@@ -46,7 +46,7 @@ class PathBox extends React.Component {
 
         if (pathStart && onMouseDown && isPath) {
 
-            const rectSvg = this.refSVG.current.getBoundingClientRect()
+            const rectSvg = refSVG.current.getBoundingClientRect()
             const pathEnd = {
                 x: e.clientX + 4 - rectSvg.left,
                 y: e.clientY + 4 - rectSvg.top
@@ -59,7 +59,7 @@ class PathBox extends React.Component {
             //console.log('chat  ok ok ', this.x, this.y, this.prevX, this.prevY, pathElement)
             const pathContainer = PathContainer.get(pathElement)
             window.path = pathContainer
-            const rectSvg = this.refSVG.current.getBoundingClientRect()
+            const rectSvg = refSVG.current.getBoundingClientRect()
 
             pathContainer.setState((state, props) => {
                 return {
@@ -76,7 +76,7 @@ class PathBox extends React.Component {
 
         if (dataElement) {
             const element = ElementContainer.get(dataElement)
-            const rectSvg = this.refSVG.current.getBoundingClientRect()
+            const rectSvg = refSVG.current.getBoundingClientRect()
             const rectBox = element.box
 
             this.setState({
@@ -179,7 +179,7 @@ class PathBox extends React.Component {
 
 
         return (
-            <svg id='edit' ref={this.refSVG} xmlns="http://www.w3.org/2000/svg"
+            <svg id='edit' ref={refSVG} xmlns="http://www.w3.org/2000/svg"
                 onMouseMove={this.onMouseMoveHandle}
                 onMouseDown={this.onMouseDownHandle}
                 onMouseUp={this.onMouseUpHandle}
@@ -227,7 +227,7 @@ class PathBox extends React.Component {
                                     <SubscribeOne to={elementContainer} bind={['x', 'y']}>
                                         {element => {
                                             const { x, y, id } = element.state
-                                            const box2 = this.convertToBox(this.refSVG.current.getBoundingClientRect(), element.box)
+                                            const box2 = this.convertToBox(refSVG.current.getBoundingClientRect(), element.box)
 
                                             return (
                                                 <React.Fragment>
