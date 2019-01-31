@@ -1,9 +1,15 @@
 import React from 'react'
+<<<<<<< HEAD:src/components/PathBox.js
 import ElementContainer, { PathContainer } from '../containers/ElementContainer'
 import workspaceContainer, {refSVG} from '../containers/WorkspaceContainer'
 import templateContainer from '../containers/TemplateContainer'
+=======
+import ElementContainer, { PathContainer } from '../../containers/ElementContainer'
+import workspaceContainer,{refSVG} from '../../containers/WorkspaceContainer'
+import templateContainer from '../../containers/TemplateContainer'
+>>>>>>> de99e599ccf629fc0f24aac17d2b2f1785fcfaee:src/components/PageEditor/PathBox.js
 import { SubscribeOne } from 'unstated-x';
-import renderPath from '../helpers/renderPath'
+import renderPath from '../../helpers/renderPath'
 
 
 class PathBox extends React.Component {

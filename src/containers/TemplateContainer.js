@@ -3,6 +3,7 @@ import ElementContainer, { PathContainer } from './ElementContainer'
 import { Maps } from '../helpers/mapping'
 import axios from 'axios'
 import { Env } from '../env'
+import {toast} from 'react-toastify'
 
 export class TemplateContainer extends Container {
 
@@ -14,13 +15,12 @@ export class TemplateContainer extends Container {
         this.state = {
             resources: Array.from(ElementContainer.instances),
             paths: Array.from(PathContainer.instances),
-            name: 'caobo17122s2'
+            stackName: null
         }
     }
 
     static exportTemplate = () => {
         let isValid = true;
-
         const resources = Array.from(ElementContainer.instances).map(e => e[1])
         const paths = Array.from(PathContainer.instances).map(e => e[1])
 
@@ -103,6 +103,8 @@ export class TemplateContainer extends Container {
             window.point1 = point1
             const point2 = ElementContainer.get(e.state.point2)
             window.point2 = point2
+
+            /// Path between EC2 && SecurityGroup
             if (point1.state.type === 'AWS::EC2::Instance') {
                 let refs = template.Resources[point1.data.state.Name].Properties[`${point2.state.type.split('::')[2]}s`]
                 if (refs && refs.length) {
@@ -127,7 +129,8 @@ export class TemplateContainer extends Container {
                 }
             }
 
-
+             
+            /// Path between EC2 && IAM
             if (point1.state.type === 'AWS::EC2::Instance' && point2.state.type === 'AWS::IAM::InstanceProfile') {
                 template.Resources[point1.data.state.Name].Properties["IamInstanceProfile"] = point2.data.state.Name
             } else if (point2.state.type === 'AWS::EC2::Instance' && point1.state.type === 'AWS::IAM::InstanceProfile') {
@@ -137,7 +140,7 @@ export class TemplateContainer extends Container {
 
 
         if (isValid) {
-            console.log('check ', JSON.stringify(template))
+           // console.log('check ', JSON.stringify(template))
             return JSON.stringify(template)
         } else {
             return false
@@ -149,16 +152,27 @@ export class TemplateContainer extends Container {
         const template = TemplateContainer.exportTemplate()
         if (!template) {
             alert('khong dung roii lam lai di !!')
+        } else if(!templateContainer.state.stackName){
+            console.log('check template Name')
+            alert('Chưa điền stack name')
         } else {
             const params = {
-                StackName: templateContainer.state.name,
+                StackName: templateContainer.state.stackName,
                 TemplateBody: template
             }
 
-            const data = await axios.post(`${Env.URL}/createcloudformation `, params)
-            console.log('chekkkkkk', data)
+            const res = await axios.post(`${Env.URL}/createcloudformation `, params)
+            console.log('chekkkkkk', res.data)
+            if(res.data.errorMessage){
+                alert(res.data.errorMessage)
+            }
         }
 
+    }
+
+
+    static importTemplate = async () => {
+        
     }
 
 }

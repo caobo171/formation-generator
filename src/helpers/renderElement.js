@@ -4,7 +4,10 @@ import Elements from '../components/elments/Elements'
 import ElementContainer from '../containers/ElementContainer'
 export default function renderElement(arrayOfElement) {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> de99e599ccf629fc0f24aac17d2b2f1785fcfaee
     return (
         <React.Fragment>
             {arrayOfElement.map((e) => {
