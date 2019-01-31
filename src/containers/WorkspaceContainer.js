@@ -8,6 +8,7 @@ class WorkSpaceContainer extends Container {
         selected:'',
         region:REGIONS[0],
         stage:'' ,
+        mode : 'design'
     }
 
 
@@ -20,3 +21,4 @@ export const REGIONS = [ 'us-west-2', 'ap-northeast-1']
 const workSpaceContainer = new WorkSpaceContainer()
 export let refSVG = React.createRef()
 export default workSpaceContainer 
+window.ws = workSpaceContainer
