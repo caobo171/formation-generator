@@ -1,11 +1,11 @@
 import React from 'react';
-import ElementContainer, { PathContainer } from '../containers/ElementContainer'
-import Elements from './elments/Elements';
-import workspaceContainer, { refSVG } from '../containers/WorkspaceContainer'
-import templateContainer from '../containers/TemplateContainer'
+import ElementContainer, {PathContainer} from '../../containers/ElementContainer'
+import workspaceContainer, { refSVG } from '../../containers/WorkspaceContainer'
+import templateContainer from '../../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x'
 import PathBox from './PathBox'
-import renderElement from '../helpers/renderElement'
+import ToolBox from './ToolBox'
+import renderElement from '../../helpers/renderElement'
 
 class PageEditor extends React.Component {
 
@@ -84,26 +84,7 @@ class PageEditor extends React.Component {
         e.preventDefault()
     }
 
-    onDeleteHandle = (e) => {
-        const path = PathContainer.get(workspaceContainer.state.selected)
-        if (path) {
-            PathContainer.deleteElement(workspaceContainer.state.selected)
-            console.log('check DELETED', Array.from(PathContainer.instances))
-            workspaceContainer.setState({ selected: null }, () => {
-                templateContainer.setState({ paths: Array.from(PathContainer.instances) })
-            })
-        } else {
-            ElementContainer.deleteElement(workspaceContainer.state.selected)
-            workspaceContainer.setState({ selected: null }, () => {
-                templateContainer.setState({
-                    paths: Array.from(PathContainer.instances),
-                    resources: Array.from(ElementContainer.instances)
-                })
-            })
-        }
 
-
-    }
 
     onDropHandle = (e) => {
 
@@ -141,27 +122,9 @@ class PageEditor extends React.Component {
                     }
                 </SubscribeOne>
 
-                <SubscribeOne to={workspaceContainer} bind={['selected']} >
-                    {ws => {
-                        if (ws.state.selected) {
-                            let element = ElementContainer.get(ws.state.selected)
-                            if (!element) {
-                                element = PathContainer.get(ws.state.selected)
-                            }
-                            const { top, left } = element.box
+                <ToolBox></ToolBox>
 
 
-                            return (
-                                <div style={{ top: `${top - 20}px`, left: `${left - 20}px`, position: 'fixed' }}>
-                                    <button onClick={this.onDeleteHandle}><i className="far fa-trash-alt"></i></button>
-                                </div>
-                            )
-                        } else {
-                            return
-                        }
-
-                    }}
-                </SubscribeOne>
             </div>
         )
     }

@@ -6,7 +6,17 @@ import CustomElement from './CustomElement'
 class CustomField extends React.Component {
 
     state = {
-        object: {}
+        object: {},
+        children:[]
+    }
+
+    onChangeHandle = (type)=>{
+          let children = this.state.children;
+
+          children.push({
+              type 
+          })
+          this.setState({children})
     }
 
 
@@ -18,30 +28,40 @@ class CustomField extends React.Component {
 
             <React.Fragment>
 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Launch demo modal
                 </button>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <select class="modal-title">
+                <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <select className="modal-title">
                                     <option>json</option>
                                     <option>text</option>
                                 </select>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                        
-                                <CustomElement></CustomElement>
-            
+                            <div className="modal-body">
+                                <select onChange={(e) => { this.onChangeHandle(e.target.value) }} defaultValue=''>
+
+                                    <option value="Array">Array</option>
+                                    <option value="String">String</option>
+                                    <option value="Object">Object</option>
+                                </select>
+                                {
+                                    this.state.children.map(e=>(
+                                        <CustomElement type={e.type}
+                                         onChangeHandle = {this.onChangeHandle}
+                                        ></CustomElement>
+                                    ))
+                                }
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,13 @@
 import React from 'react'
+import { Users } from '../../fakeData'
 
 
 class UserList extends React.Component {
+
+    onDragStartCaptureHandle = (username ,event)=>{
+        console.log('check eee' , username)
+        event.dataTransfer.setData("username", username);
+    }
     render() {
         return (
             <div className="nav-side-menu" style={{ position: 'fixed', zIndex: '200' }}>
@@ -11,13 +17,15 @@ class UserList extends React.Component {
                 <div className="menu-list">
 
                     <ul id="menu-content" className="menu-content collapse out">
-                        <li>
-
-                        </li>
-
-                        <li data-toggle="collapse" data-target="#EC2" className="collapsed active">
-                            <a href="#"><i className="fa fa-gift fa-lg"></i> EC2 <span className="arrow"></span></a>
-                        </li>
+                        {
+                            Users.map(e => (
+                                <li
+                                key={e}
+                                data-type={e.type}
+                                draggable={true} onDragStartCapture={(event) => this.onDragStartCaptureHandle(e , event)}
+                            >{e}</li>
+                            ))
+                        }
                     </ul>
                 </div>
             </div>

@@ -30,7 +30,6 @@ class Sidebar extends React.Component {
 
                 this.setState({type:null})
             }
-            console.log('check',e.target)
             window.target = e.target
         })
     }
@@ -38,16 +37,16 @@ class Sidebar extends React.Component {
 
         return (
             <React.Fragment>
-                <div class=" sidebar1" style={{
+                <div className=" sidebar1" style={{
                     width:"2%",
                     background: '#68a0f9',
                 }}>
-                    <div class="left-navigation mt-4 ml-2">
-                        <i onClick= {()=> this.setState({type:'catalog'})} class="fas  fa-2x fa-database"></i>
+                    <div className="left-navigation mt-4 ml-2">
+                        <i onClick= {()=> this.setState({type:'catalog'})} className="fas  fa-2x fa-database"></i>
                     </div>
 
-                    <div class="left-navigation mt-4 ml-1">
-                        <i onClick= {()=> this.setState({type:'userlist'})}class="fas  fa-2x fa-users"></i>
+                    <div className="left-navigation mt-4 ml-1">
+                        <i onClick= {()=> this.setState({type:'userlist'})}className="fas  fa-2x fa-users"></i>
                     </div>
                 </div>
 

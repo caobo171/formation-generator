@@ -20,8 +20,7 @@ class Catalog extends React.Component {
 
         let EC2 = []
         let IAM = []
-        const array = Object.keys(Elements).forEach(e => {
-            console.log('check', e)
+       Object.keys(Elements).forEach(e => {
             const els = e.split('::');
             if (els[1] === 'EC2') {
                 EC2.push({
@@ -35,7 +34,7 @@ class Catalog extends React.Component {
                 })
             }
         })
-        this.setState({ EC2, IAM }, () => console.log('check', this.state))
+        this.setState({ EC2, IAM })
     }
     render() {
         return (

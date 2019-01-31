@@ -1,9 +1,9 @@
 import React from 'react'
-import ElementContainer, { PathContainer } from '../containers/ElementContainer'
-import workspaceContainer,{refSVG} from '../containers/WorkspaceContainer'
-import templateContainer from '../containers/TemplateContainer'
+import ElementContainer, { PathContainer } from '../../containers/ElementContainer'
+import workspaceContainer,{refSVG} from '../../containers/WorkspaceContainer'
+import templateContainer from '../../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x';
-import renderPath from '../helpers/renderPath'
+import renderPath from '../../helpers/renderPath'
 
 
 class PathBox extends React.Component {
