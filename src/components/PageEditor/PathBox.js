@@ -1,13 +1,7 @@
 import React from 'react'
-<<<<<<< HEAD:src/components/PathBox.js
-import ElementContainer, { PathContainer } from '../containers/ElementContainer'
-import workspaceContainer, {refSVG} from '../containers/WorkspaceContainer'
-import templateContainer from '../containers/TemplateContainer'
-=======
 import ElementContainer, { PathContainer } from '../../containers/ElementContainer'
 import workspaceContainer,{refSVG} from '../../containers/WorkspaceContainer'
 import templateContainer from '../../containers/TemplateContainer'
->>>>>>> de99e599ccf629fc0f24aac17d2b2f1785fcfaee:src/components/PageEditor/PathBox.js
 import { SubscribeOne } from 'unstated-x';
 import renderPath from '../../helpers/renderPath'
 
@@ -96,10 +90,6 @@ class PathBox extends React.Component {
     }
 
 
-
-
-
-
     onMouseDownHandle = (e) => {
         const point = e.target.getAttribute('data-el')
         const path = e.target.getAttribute('data-path')
@@ -169,7 +159,7 @@ class PathBox extends React.Component {
     }
 
     render() {
-        const { dataElement, box, box2, onMouseDown, isPath, pathEnd, pathStart } = this.state
+        const { dataElement, box, isPath, pathEnd, pathStart } = this.state
         const { top, left, right, bottom } = {
             top: { x: (box.left + box.right) / 2, y: box.top },
             left: { x: (box.left), y: (box.top + box.bottom) / 2 },
@@ -229,7 +219,7 @@ class PathBox extends React.Component {
                                 return (
                                     <SubscribeOne to={elementContainer} bind={['x', 'y']}>
                                         {element => {
-                                            const { x, y, id } = element.state
+
                                             const box2 = this.convertToBox(refSVG.current.getBoundingClientRect(), element.box)
 
                                             return (

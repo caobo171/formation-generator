@@ -400,28 +400,60 @@
         }
     },
     "Resources": {
-        "caodb4": {
-            "Type": "AWS::RDS::DBInstance",
+        "caonguyen": {
+            "Type": "AWS::EC2::Instance",
             "Properties": {
-                "AllocatedStorage": "100",
-                "DBInstanceClass": "db.m1.small",
-                "Engine": "MySQL",
-                "Iops": "1000",
-                "MasterUsername": "cao171",
-                "MasterUserPassword": "tuilacao171",
-                "DBInstanceIdentifier": "caodb4",
-                "DBSecurityGroups": [
+                "InstanceType": "t2.micro",
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSRegionArch2AMI",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        {
+                            "Fn::FindInMap": [
+                                "AWSInstanceType2Arch",
+                                "t2.micro",
+                                "Arch"
+                            ]
+                        }
+                    ]
+                },
+                "Tags": [
                     {
-                        "Ref": "DBGroup1"
+                        "Key": "Name",
+                        "Value": "caonguyen"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n",
+                                "service sshd reload\n",
+                                "password=\"tuilacao171\"\n",
+                                "pass=$(perl -e 'print crypt($ARGV[0], \"password\")' $password)\n",
+                                "useradd -m -p $pass cao171\n",
+                                "sed -i 's/Allows people in group wheel to run all commands/Allows people in group wheel to run all commands \\n cao171   ALL=(ALL)  NOPASSWD:ALL/g' /etc/sudoers\n"
+                            ]
+                        ]
+                    }
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "SGroup"
                     }
                 ]
             }
         },
-        "DBGroup1": {
-            "Type": "AWS::RDS::DBSecurityGroup",
+        "SGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
-                "GroupDescription": "demo",
-                "DBSecurityGroupIngress": [
+                "GroupName": "SGroup",
+                "GroupDescription": "nothing",
+                "SecurityGroupIngress": [
                     {
                         "IpProtocol": "tcp",
                         "FromPort": "22",
@@ -435,24 +467,24 @@
     "Outputs": {},
     "Metadata": {
         "VTI::DesignElement": {
-            "caodb4": {
-                "x": 514.328125,
-                "y": 119
+            "caonguyen": {
+                "x": 624.03125,
+                "y": 235
             },
-            "DBGroup1": {
-                "x": 759.328125,
-                "y": 108
+            "SGroup": {
+                "x": 302.03125,
+                "y": 298
             }
         },
         "VTI::DesignPath": {
-            "caodb4$$DBGroup1": {
+            "caonguyen$$SGroup": {
                 "start": {
-                    "x": 544.328125,
-                    "y": 119
+                    "x": 596.03125,
+                    "y": 235
                 },
                 "end": {
-                    "x": 712.328125,
-                    "y": 107
+                    "x": 347.03125,
+                    "y": 301
                 },
                 "peak": {
                     "x": 0,

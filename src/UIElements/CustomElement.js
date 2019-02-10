@@ -27,6 +27,8 @@ class CustomElement extends React.Component {
                         <input onChange={this.props.onResetHandle} placeholder="...value"></input>
                     </React.Fragment>
                 )
+            default :
+                return
         }
     }
     render() {

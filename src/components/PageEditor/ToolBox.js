@@ -5,6 +5,7 @@ import { SubscribeOne } from 'unstated-x'
 import ElementContainer, { PathContainer } from '../../containers/ElementContainer'
 import templateContainer from '../../containers/TemplateContainer'
 import UserBox from '../Manage/EC2/UsersBox'
+import RDSUserBox from '../Manage/RDS/RDSUserBox'
 
 
 
@@ -39,6 +40,10 @@ class ToolBox extends React.Component {
             case 'AWS::EC2::Instance':
                 return (
                     <UserBox close={() => this.setState({ onManageResource: false })}></UserBox>
+                )
+            case 'AWS::RDS::DBInstance':
+                return (
+                    <RDSUserBox close={() => this.setState({onManageResource:false})}></RDSUserBox>
                 )
             default:
                 return

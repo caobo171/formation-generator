@@ -1,5 +1,5 @@
 import React from 'react'
-import { Users } from '../../fakeData'
+import {Users} from '../../fakeData/fakeData'
 
 
 class UserList extends React.Component {

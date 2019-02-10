@@ -1,7 +1,5 @@
 import { SubscribeOne } from 'unstated-x'
 import React from 'react'
-import Elements from '../components/elments/Elements'
-import ElementContainer from '../containers/ElementContainer'
 export default function renderPath(arrayOfPath) {
 
     return (

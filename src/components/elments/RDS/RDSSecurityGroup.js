@@ -4,7 +4,7 @@ import { BindingContext } from '../../../containers/ElementContainer'
 import enhanceElement from '../../../helpers/enhanceElement'
 import { Maps } from '../../../helpers/mapping'
 
-class EC2SecurityGroup extends React.Component {
+class RDSSecurityGroup extends React.Component {
 
 
     static defaultProps = {
@@ -42,42 +42,25 @@ class EC2SecurityGroup extends React.Component {
 
                                     <label>SecurityGroupIngress</label>
                                     <React.Fragment>
-                                        {data.state.SecurityGroupIngress.map((e,index) => (
+                                        {data.state.SecurityGroupIngress.map((e, index) => (
                                             <div className="row" key={index} id="form">
                                                 <div className="col col-3">
-                                                    <label><strong>{e.IpProtocol}</strong></label>
-                                                </div>
-                                                <div className="col col-3">
-                                                    <label>{e.FromPort}</label>
-                                                </div>
-                                                <div className="col col-3">
-                                                    <label>{e.ToPort}</label>
-                                                </div>
-                                                <div className="col col-3">
-                                                    <label>{e.CidrIp}</label>
+                                                    <label>{e.CIDRIP}</label>
                                                 </div>
                                             </div>
                                         ))}
                                     </React.Fragment>
 
-                                    <form className="form-group" ref={EC2SecurityGroup.ref}>
-                                        <input type="text" className="form-control" name="IpProtocol" placeholder="IpProtocol" defaultValue="tcp" />
-
-                                        <input type="number" className="form-control" name="FromPort" placeholder="FromPort" defaultValue="22" />
-
-                                        <input type="number" className="form-control" name="ToPort" placeholder="ToPort" defaultValue="22" />
-
-
-                                        <input type="text" className="form-control" name="CidrIp" placeholder="CidrIp" defaultValue="0.0.0.0/0" />
-
+                                    <form className="form-group" ref={RDSSecurityGroup.ref}>
+                                        <input type="text" className="form-control" name="CIDRIP" placeholder="CIDRIP" defaultValue="0.0.0.0/0" />
 
                                         <button className="btn fas fa-plus-circle"
                                             onClick={e => {
                                                 //console.log('check', document.getElementById('form').value)
-                                                const elements = EC2SecurityGroup.ref.current.elements
+                                                const elements = RDSSecurityGroup.ref.current.elements
                                                 let securityGroupIngress = data.state.SecurityGroupIngress
                                                 let object = {}
-                                                for (let i = 0; i < elements.length-1; i++) {
+                                                for (let i = 0; i < elements.length - 1; i++) {
                                                     object[elements[i].name] = elements[i].value
                                                 }
                                                 securityGroupIngress.push(object)
@@ -110,10 +93,10 @@ class EC2SecurityGroup extends React.Component {
                     </linearGradient>
                 </defs>
                 <ellipse cx={this.props.x} cy={this.props.y} rx="35" ry="25" fill="url(#grad1)" />
-                <text fill="#ffffff" fontSize="10" fontFamily="Verdana" x={this.props.x - 38} y={this.props.y}>SecurityGroup</text>
+                <text fill="#ffffff" fontSize="10" fontFamily="Verdana" x={this.props.x - 38} y={this.props.y}>RDSSGroup</text>
             </React.Fragment>
         )
     }
 }
 
-export default enhanceElement(EC2SecurityGroup) 
+export default enhanceElement(RDSSecurityGroup) 

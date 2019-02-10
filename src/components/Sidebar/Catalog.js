@@ -13,13 +13,15 @@ class Catalog extends React.Component {
 
     state = {
         EC2: [],
-        IAM: []
+        IAM: [],
+        RDS: []
     }
 
     componentDidMount() {
 
         let EC2 = []
         let IAM = []
+        let RDS = []
        Object.keys(Elements).forEach(e => {
             const els = e.split('::');
             if (els[1] === 'EC2') {
@@ -32,9 +34,14 @@ class Catalog extends React.Component {
                     type: e,
                     name: els[2]
                 })
+            } else if (els[1] === 'RDS') {
+                RDS.push({
+                    type:e,
+                    name:els[2]
+                })
             }
         })
-        this.setState({ EC2, IAM })
+        this.setState({ EC2, IAM,RDS })
     }
     render() {
         return (
@@ -69,6 +76,20 @@ class Catalog extends React.Component {
                         </li>
                         <ul className="sub-menu collapse" id="IAM">
                             {this.state.IAM.map(e => (
+                                <li
+                                    key={e.name}
+                                    data-type={e.type}
+                                    draggable={true} onDragStartCapture={this.onDragStartCaptureHandle}
+                                >{e.name}</li>
+                            ))}
+                        </ul>
+
+
+                        <li data-toggle="collapse" data-target="#RDS" className="collapsed">
+                            <a href="#"><i className="fa fa-globe fa-lg"></i> RDS <span className="arrow"></span></a>
+                        </li>
+                        <ul className="sub-menu collapse" id="RDS">
+                            {this.state.RDS.map(e => (
                                 <li
                                     key={e.name}
                                     data-type={e.type}

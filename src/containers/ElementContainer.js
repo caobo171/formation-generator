@@ -2,7 +2,6 @@ import { Container } from 'unstated-x'
 import uuid from 'uuid'
 import Elements from '../components/elments/Elements'
 import React from 'react'
-import $ from 'jquery'
 
 
 class ElementContainer extends Container {
@@ -35,6 +34,15 @@ class ElementContainer extends Container {
         const id = uuid()
         return new ElementContainer({ ...state, id })
 
+    }
+
+    static getByName = (name) => {
+        console.log('check name',name, Array.from(ElementContainer.instances))
+        window.arr = Array.from(ElementContainer.instances)
+
+        const id  = Array.from(ElementContainer.instances).find(e=> { return e[1].data.state.Name === name })[0]
+        console.log('check id',id)
+        return ElementContainer.get(id)
     }
 
     get data(){

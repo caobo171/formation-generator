@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+
 
 import CustomElement from './CustomElement'
 
@@ -21,8 +21,6 @@ class CustomField extends React.Component {
 
 
     render() {
-
-        const { dataContainer } = this.props
 
         return (
 

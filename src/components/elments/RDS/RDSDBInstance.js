@@ -4,14 +4,13 @@ import { BindingContext } from '../../../containers/ElementContainer'
 import enhanceElement from '../../../helpers/enhanceElement'
 import { Maps } from '../../../helpers/mapping'
 
-class EC2Instance extends React.Component {
+class RDSDBInstance extends React.Component {
 
 
     static defaultProps = {
-        InstanceType: 't2.micro',
-        ImageId: Maps.AWSInstanceType2Arch["t2.micro"].Arch,
+        Engine: "MySQL",
+        EngineVersion: "5.6.13",
         Name: '',
-        Description: '',
         Tags: []
     }
 
@@ -25,31 +24,17 @@ class EC2Instance extends React.Component {
                             data => (
                                 <div>
                                     <div className="form-group">
-                                        <label>Name </label>
+                                        <label>DBName </label>
                                         <input type="text" className="form-control" placeholder="Enter Name ..."
                                             onChange={(e) => data.setState({ Name: e.target.value })}
                                             value={data.state.Name}>
                                         </input>
                                     </div>
-                                    <div className="form-group">
-                                        <label >InstanceType</label>
-                                        <select className="form-control" value={data.state.InstanceType}
-                                            onChange={(e) => data.setState({
-                                                InstanceType: e.target.value,
-                                                ImageId: Maps.AWSInstanceType2Arch[e.target.value].Arch
-                                            })} >
-                                            {
-                                                Object.keys(Maps.AWSInstanceType2Arch).map(e => (
-                                                    <option key={e} value={e}>{e}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
 
                                     <div className="form-group">
-                                        <label>ImageId</label>
-                                        <input type="text" className="form-control" readOnly={true} 
-                                        value={ Maps.AWSInstanceType2Arch[data.state.InstanceType].Arch}>
+                                        <label>Engine</label>
+                                        <input type="text" className="form-control" readOnly={true}
+                                            value={data.state.Engine}>
                                         </input>
                                     </div>
                                     <label>Tags</label>
@@ -69,7 +54,7 @@ class EC2Instance extends React.Component {
                                         }
                                     </React.Fragment>
 
-                                    <form className="row" ref={EC2Instance.ref}>
+                                    <form className="row" ref={RDSDBInstance.ref}>
 
                                         <div className="col col-5">
                                             <input type="text" className="form-control" placeholder="Key" />
@@ -81,11 +66,11 @@ class EC2Instance extends React.Component {
                                             <button className="btn fas fa-plus-circle fa-x2"
                                                 onClick={e => {
                                                     //console.log('check', document.getElementById('form').value)
-                                                    const key = EC2Instance.ref.current.elements[0].value
-                                                    const value = EC2Instance.ref.current.elements[1].value
+                                                    const key = RDSDBInstance.ref.current.elements[0].value
+                                                    const value = RDSDBInstance.ref.current.elements[1].value
                                                     let tags = data.state.Tags
                                                     tags.push({ Key: key, Value: value })
-                                                    console.log('checkkkk tags',tags)
+                                                    console.log('checkkkk tags', tags)
                                                     data.setState({ Tags: tags })
                                                     e.preventDefault()
                                                 }}
@@ -110,15 +95,15 @@ class EC2Instance extends React.Component {
             <React.Fragment>
                 <defs>
                     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style={{ stopColor: "rgb(0,255,255)", stopOpacity: 1 }} />
-                        <stop offset="100%" style={{ stopColor: "rgb(100,100,50)", stopOpacity: 1 }} />
+                        <stop offset="0%" style={{ stopColor: "rgb(0,0,0)", stopOpacity: "1" }} />
+                        <stop offset="100%" style={{ stopColor: "rgb(255,0,0)", stopOpacity: 1 }} />
                     </linearGradient>
                 </defs>
                 <ellipse cx={this.props.x} cy={this.props.y} rx="20" ry="20" fill="url(#grad1)" />
-                <text fill="#ffffff" fontSize="15" fontFamily="Verdana" x={this.props.x - 18} y={this.props.y + 6}>EC2</text>
+                <text fill="#ffffff" fontSize="12" fontFamily="Verdana" x={this.props.x - 18} y={this.props.y + 6}>MySQL</text>
             </React.Fragment>
         )
     }
 }
 
-export default enhanceElement(EC2Instance) 
+export default enhanceElement(RDSDBInstance) 

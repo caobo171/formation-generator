@@ -18,7 +18,7 @@ class App extends Component {
             {/* <img src={logo} className="App-logo" alt="logo" /> */}
             {/* <Logo className="App-logo"></Logo> */}
             <Route path="/design" exact component={Main}></Route>
-            <Route path="/manage" exact component= {Main}></Route>
+            <Route path="/manage/:stackname" exact component= {Main}></Route>
           </React.Fragment>
           <ToastContainer />
         </Provider>

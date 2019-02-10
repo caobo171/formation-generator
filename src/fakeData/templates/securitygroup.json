@@ -400,33 +400,13 @@
         }
     },
     "Resources": {
-        "caodb4": {
-            "Type": "AWS::RDS::DBInstance",
-            "Properties": {
-                "AllocatedStorage": "100",
-                "DBInstanceClass": "db.m1.small",
-                "Engine": "MySQL",
-                "Iops": "1000",
-                "MasterUsername": "cao171",
-                "MasterUserPassword": "tuilacao171",
-                "DBInstanceIdentifier": "caodb4",
-                "DBSecurityGroups": [
-                    {
-                        "Ref": "DBGroup1"
-                    }
-                ]
-            }
-        },
-        "DBGroup1": {
+        "testDB": {
             "Type": "AWS::RDS::DBSecurityGroup",
             "Properties": {
                 "GroupDescription": "demo",
                 "DBSecurityGroupIngress": [
                     {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp": "0.0.0.0/0"
+                        "CIDRIP": "0.0.0.0/0"
                     }
                 ]
             }
@@ -435,30 +415,11 @@
     "Outputs": {},
     "Metadata": {
         "VTI::DesignElement": {
-            "caodb4": {
-                "x": 514.328125,
-                "y": 119
-            },
-            "DBGroup1": {
-                "x": 759.328125,
-                "y": 108
+            "testDB": {
+                "x": 444.328125,
+                "y": 123
             }
         },
-        "VTI::DesignPath": {
-            "caodb4$$DBGroup1": {
-                "start": {
-                    "x": 544.328125,
-                    "y": 119
-                },
-                "end": {
-                    "x": 712.328125,
-                    "y": 107
-                },
-                "peak": {
-                    "x": 0,
-                    "y": 0
-                }
-            }
-        }
+        "VTI::DesignPath": {}
     }
 }
