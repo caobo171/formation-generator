@@ -35,11 +35,13 @@ class RDSDBInstance extends React.Component {
 
                                     <div className="form-group">
                                         <label>Engine</label>
-                                        <input type="text" className="form-control" readOnly={true}
-                                            value={data.state.Engine}>
-                                        </input>
+                                        <select value={data.state.Engine} className="form-control"
+                                        onChange={(e) => data.setState({Engine:e.target.value})}
+                                        >
+                                           <option value="MySQL">MySQL</option>
+                                           <option value="postgres">PostgreSQL</option>
+                                         </select>
                                     </div>
-
                                     <div className="form-group">
                                     <label>DBInstanceClass</label>
                                       <select className="form-control" onChange={(e)=> data.setState({DBInstanceClass:e.target.value})}

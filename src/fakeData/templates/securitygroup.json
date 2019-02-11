@@ -400,10 +400,27 @@
         }
     },
     "Resources": {
-        "testDB": {
+        "testPostGre": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "AllocatedStorage": "100",
+                "DBInstanceClass": "db.t2.small",
+                "Engine": "PostgreSQL",
+                "Iops": "1000",
+                "MasterUsername": "cao171",
+                "MasterUserPassword": "tuilacao171",
+                "DBInstanceIdentifier": "testPostGre",
+                "DBSecurityGroups": [
+                    {
+                        "Ref": "testSGroup"
+                    }
+                ]
+            }
+        },
+        "testSGroup": {
             "Type": "AWS::RDS::DBSecurityGroup",
             "Properties": {
-                "GroupDescription": "demo",
+                "GroupDescription": "nothing",
                 "DBSecurityGroupIngress": [
                     {
                         "CIDRIP": "0.0.0.0/0"
@@ -415,11 +432,30 @@
     "Outputs": {},
     "Metadata": {
         "VTI::DesignElement": {
-            "testDB": {
-                "x": 444.328125,
-                "y": 123
+            "testPostGre": {
+                "x": 536.609375,
+                "y": 126
+            },
+            "testSGroup": {
+                "x": 717.609375,
+                "y": 234
             }
         },
-        "VTI::DesignPath": {}
+        "VTI::DesignPath": {
+            "testPostGre$$testSGroup": {
+                "start": {
+                    "x": 538.5390625,
+                    "y": 154
+                },
+                "end": {
+                    "x": 672.609375,
+                    "y": 233
+                },
+                "peak": {
+                    "x": 0,
+                    "y": 0
+                }
+            }
+        }
     }
 }
