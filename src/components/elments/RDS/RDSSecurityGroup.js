@@ -12,7 +12,7 @@ class RDSSecurityGroup extends React.Component {
         ImageId: Maps.AWSInstanceType2Arch["t2.micro"].Arch,
         Name: '',
         Description: '',
-        SecurityGroupIngress: []
+        DBSecurityGroupIngress: []
     }
 
     static ref = React.createRef()
@@ -42,7 +42,7 @@ class RDSSecurityGroup extends React.Component {
 
                                     <label>SecurityGroupIngress</label>
                                     <React.Fragment>
-                                        {data.state.SecurityGroupIngress.map((e, index) => (
+                                        {data.state.DBSecurityGroupIngress.map((e, index) => (
                                             <div className="row" key={index} id="form">
                                                 <div className="col col-3">
                                                     <label>{e.CIDRIP}</label>
@@ -58,13 +58,13 @@ class RDSSecurityGroup extends React.Component {
                                             onClick={e => {
                                                 //console.log('check', document.getElementById('form').value)
                                                 const elements = RDSSecurityGroup.ref.current.elements
-                                                let securityGroupIngress = data.state.SecurityGroupIngress
+                                                let DBSecurityGroupIngress = data.state.DBSecurityGroupIngress
                                                 let object = {}
                                                 for (let i = 0; i < elements.length - 1; i++) {
                                                     object[elements[i].name] = elements[i].value
                                                 }
-                                                securityGroupIngress.push(object)
-                                                data.setState({ SecurityGroupIngress: securityGroupIngress })
+                                                DBSecurityGroupIngress.push(object)
+                                                data.setState({ DBSecurityGroupIngress })
                                                 e.preventDefault()
                                             }}
                                             style={{ cursor: 'pointer', float: 'left' }}></button>

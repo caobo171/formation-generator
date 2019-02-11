@@ -18,7 +18,8 @@ export default class RDSUserBox extends React.Component {
         loading: true,
         username: '',
         password: '',
-        resetPassword: '********'
+        resetPassword: '********',
+        status: ''
 
     }
 
@@ -29,14 +30,21 @@ export default class RDSUserBox extends React.Component {
         })
 
         console.log('check host', this.state.rdsInstance.Endpoint.Address, res)
-        this.setState({ users: res.data.map(e => e.user), loading: false })
+        if (res.data && !res.data.errorMessage) {
+            this.setState({ users: res.data.map(e => e.user), loading: false })
+        } else {
+            this.setState({ users: [], loading: false })
+        }
+
     }
 
     async componentDidMount() {
-
-
         const nameRDS = ElementContainer.get(workspaceContainer.state.selected).data.state.Name
-        const res = await axios.post(`${Env.URL}/listdbinstance`, { DBInstanceIdentifier: nameRDS })
+        const res = await axios.post(`${Env.URL}/listdbinstance`,
+            {
+                DBInstanceIdentifier: nameRDS,
+                action: 'list'
+            })
         console.log('check RDSs', res)
         this.setState({ rdsInstance: JSON.parse(res.data).DBInstances[0] }, async () => {
             await this.getUsers()
@@ -52,6 +60,8 @@ export default class RDSUserBox extends React.Component {
         this.setState({ username }, () => console.log('check username', username))
 
     }
+
+
 
 
     onAddUser = async (username) => {
@@ -82,7 +92,7 @@ export default class RDSUserBox extends React.Component {
         console.log('checkkkkk vaof on add user')
 
 
-      
+
     }
 
     onResetHandle = async (e) => {
@@ -93,13 +103,46 @@ export default class RDSUserBox extends React.Component {
             host: this.state.rdsInstance.Endpoint.Address,
             resetPassword: true
         })
-        this.setState({ users: res.data.map(e => e.user), loading: false ,isResetting:false })
+        this.setState({ users: res.data.map(e => e.user), loading: false, isResetting: false })
 
     }
 
     onChangeHandle = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
+
+    sendAction = async (action) => {
+        this.setState({loading:true})
+        const nameRDS = ElementContainer.get(workspaceContainer.state.selected).data.state.Name
+        const res = await axios.post(`${Env.URL}/listdbinstance`,
+            {
+                DBInstanceIdentifier: nameRDS,
+                action
+            })
+
+        console.log('check ',res,nameRDS,action)
+        this.setState({ rdsInstance: JSON.parse(res.data).DBInstance ,loading:false })
+    }
+
+    renderActionButtons = (type) => {
+        switch (type) {
+            case 'available': {
+                return (
+                    <button type="button"
+                        className="btn btn-warning btn-sm btn-block" onClick={()=>this.sendAction('stop')}>Stop</button>
+
+                )
+            }
+            case 'stopped': {
+                return (
+                    <button type="button"
+                        className="btn btn-success btn-sm btn-block" onClick={()=>this.sendAction('start')}>Start</button>
+                )
+            }
+        }
+    }
+
+
     render() {
 
         return (
@@ -128,7 +171,7 @@ export default class RDSUserBox extends React.Component {
                                             <td >
                                                 {this.state.isResetting === e ? (
                                                     <input className="form-control" placeholder="...reset pass"
-                                                        value = {this.state.resetPassword}
+                                                        value={this.state.resetPassword}
                                                         name="resetPassword" onChange={this.onChangeHandle}
                                                     ></input>
                                                 ) : ('********')}
@@ -164,7 +207,21 @@ export default class RDSUserBox extends React.Component {
                         )
                     }
 
-                    <tr><button type="button" className="btn btn-danger btn-sm btn-block" onClick={() => this.props.close()}>Close</button></tr>
+                    <tr>
+                        <th>
+
+                            {this.state.rdsInstance ? this.state.rdsInstance.DBInstanceStatus : 'loading...'}
+                        </th>
+                        <td>
+                            {this.state.rdsInstance ? (
+                                 this.renderActionButtons(this.state.rdsInstance.DBInstanceStatus) 
+                            ) : ('')}
+
+                        </td>
+                        <td>
+                            <button type="button" className="btn btn-danger btn-sm btn-block" onClick={() => this.props.close()}>Close</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         )

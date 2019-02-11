@@ -67,7 +67,7 @@ class ToolBox extends React.Component {
                                 {
                                     this.state.onManageResource ? (
                                         <React.Fragment>
-                                            <div style={{ top: `${top - 20}px`, left: `${left}px` ,width:'450px', position: 'fixed' }}>
+                                            <div style={{ top: `${top - 20}px`, left: `${left}px` ,width:'450px', position: 'fixed',zIndex:"200" }}>
                                                 <dialog open  >
                                                     {this.renderManageBox(element.state.type)}
                                                 </dialog>

@@ -2,7 +2,8 @@ import React from 'react'
 import { Subscribe } from 'unstated-x'
 import { BindingContext } from '../../../containers/ElementContainer'
 import enhanceElement from '../../../helpers/enhanceElement'
-import { Maps } from '../../../helpers/mapping'
+import { Maps,RDS_CLASSES } from '../../../helpers/mapping'
+
 
 class RDSDBInstance extends React.Component {
 
@@ -11,7 +12,8 @@ class RDSDBInstance extends React.Component {
         Engine: "MySQL",
         EngineVersion: "5.6.13",
         Name: '',
-        Tags: []
+        Tags: [],
+        DBInstanceClass:'db.t2.small'
     }
 
     static ref = React.createRef()
@@ -36,6 +38,18 @@ class RDSDBInstance extends React.Component {
                                         <input type="text" className="form-control" readOnly={true}
                                             value={data.state.Engine}>
                                         </input>
+                                    </div>
+
+                                    <div className="form-group">
+                                    <label>DBInstanceClass</label>
+                                      <select className="form-control" onChange={(e)=> data.setState({DBInstanceClass:e.target.value})}
+                                      value = {data.state.DBInstanceClass}>
+                                         {
+                                             RDS_CLASSES.map(e=>(
+                                                 <option value={e}>{e}</option>
+                                             ))
+                                         }
+                                      </select>
                                     </div>
                                     <label>Tags</label>
                                     <React.Fragment>

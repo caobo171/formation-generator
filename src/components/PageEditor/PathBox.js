@@ -1,6 +1,6 @@
 import React from 'react'
 import ElementContainer, { PathContainer } from '../../containers/ElementContainer'
-import workspaceContainer,{refSVG} from '../../containers/WorkspaceContainer'
+import workspaceContainer, { refSVG } from '../../containers/WorkspaceContainer'
 import templateContainer from '../../containers/TemplateContainer'
 import { SubscribeOne } from 'unstated-x';
 import renderPath from '../../helpers/renderPath'
@@ -219,21 +219,23 @@ class PathBox extends React.Component {
                                 return (
                                     <SubscribeOne to={elementContainer} bind={['x', 'y']}>
                                         {element => {
-
-                                            const box2 = this.convertToBox(refSVG.current.getBoundingClientRect(), element.box)
+                                            let box2 = null
+                                            if (refSVG.current) {
+                                                 box2 = this.convertToBox(refSVG.current.getBoundingClientRect(), element.box)
+                                            }
 
                                             return (
                                                 <React.Fragment>
                                                     <React.Fragment>
                                                         {box2 && !isPath && (
                                                             <g>
-                                                                <line x1={box2.left -3} y1={box2.top - 3} x2={box2.right +3} y2={box2.top - 3}
+                                                                <line x1={box2.left - 3} y1={box2.top - 3} x2={box2.right + 3} y2={box2.top - 3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
-                                                                <line x1={box2.left -3} y1={box2.bottom +3} x2={box2.right +3} y2={box2.bottom +3}
+                                                                <line x1={box2.left - 3} y1={box2.bottom + 3} x2={box2.right + 3} y2={box2.bottom + 3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
-                                                                <line x1={box2.left -3 } y1={box2.bottom +3} x2={box2.left -3} y2={box2.top -3}
+                                                                <line x1={box2.left - 3} y1={box2.bottom + 3} x2={box2.left - 3} y2={box2.top - 3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
-                                                                <line x1={box2.right +3} y1={box2.bottom +3} x2={box2.right +3} y2={box2.top -3}
+                                                                <line x1={box2.right + 3} y1={box2.bottom + 3} x2={box2.right + 3} y2={box2.top - 3}
                                                                     style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }} />
                                                             </g>
                                                         )}

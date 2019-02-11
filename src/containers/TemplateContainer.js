@@ -128,7 +128,7 @@ export class TemplateContainer extends Container {
                             "Type": e.state.type,
                             "Properties": {
                                 "GroupDescription": e.data.state.GroupDescription,
-                                "DBSecurityGroupIngress": e.data.state.SecurityGroupIngress
+                                "DBSecurityGroupIngress": e.data.state.DBSecurityGroupIngress
                             }
                         }
                         break
@@ -138,7 +138,7 @@ export class TemplateContainer extends Container {
                             "Type": e.state.type,
                             "Properties": {
                                 "AllocatedStorage": "100",
-                                "DBInstanceClass": "db.m1.small",
+                                "DBInstanceClass": e.data.state.DBInstanceClass,
                                 "Engine": e.data.state.Engine,
                                 "Iops": "1000",
                                 "MasterUsername": 'cao171',
