@@ -48,7 +48,7 @@ class RDSDBInstance extends React.Component {
                                       value = {data.state.DBInstanceClass}>
                                          {
                                              RDS_CLASSES.map(e=>(
-                                                 <option value={e}>{e}</option>
+                                                 <option key={e} value={e}>{e}</option>
                                              ))
                                          }
                                       </select>

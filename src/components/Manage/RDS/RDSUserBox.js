@@ -26,12 +26,19 @@ export default class RDSUserBox extends React.Component {
 
     getUsers = async () => {
         const res = await axios.post(`${Env.URL}/manageuserrds`, {
-            host: this.state.rdsInstance.Endpoint.Address
+            host: this.state.rdsInstance.Endpoint.Address,
+            engine: this.state.rdsInstance.Engine
         })
 
         console.log('check host', this.state.rdsInstance.Endpoint.Address, res)
         if (res.data && !res.data.errorMessage) {
-            this.setState({ users: res.data.map(e => e.user), loading: false })
+            if(this.state.rdsInstance.Engine === 'postgres' ){
+                window.users = res.data
+               this.setState({users:res.data.rows.map(e=>e.usename),loading:false})
+            }else{
+                this.setState({ users: res.data.map(e => e.user), loading: false })
+            }
+           
         } else {
             this.setState({ users: [], loading: false })
         }
@@ -44,13 +51,13 @@ export default class RDSUserBox extends React.Component {
             {
                 DBInstanceIdentifier: nameRDS,
                 action: 'list'
+                
             })
         console.log('check RDSs', res)
         this.setState({ rdsInstance: JSON.parse(res.data).DBInstances[0] }, async () => {
             await this.getUsers()
         })
         window.res = res
-        this.setState({ users: Users })
 
 
     }
@@ -69,11 +76,15 @@ export default class RDSUserBox extends React.Component {
         const res = await axios.post(`${Env.URL}/manageuserrds `, {
             username: this.state.username,
             host: this.state.rdsInstance.Endpoint.Address,
-            password: this.state.password
+            password: this.state.password,
+            engine: this.state.rdsInstance.Engine
 
         })
-        this.setState({ users: res.data.map(e => e.user), loading: false })
-
+        if(this.state.rdsInstance.Engine === 'postgres' ){
+            this.setState({users:res.data.rows.map(e=>e.usename),loading:false})
+         }else{
+             this.setState({ users: res.data.map(e => e.user), loading: false })
+         }
         console.log('checkkkkk vaof on add user')
 
 
@@ -84,10 +95,18 @@ export default class RDSUserBox extends React.Component {
         this.setState({ loading: true })
         const res = await axios.post(`${Env.URL}/manageuserrds `, {
             username,
-            host: this.state.rdsInstance.Endpoint.Address
+            host: this.state.rdsInstance.Endpoint.Address,
+            engine: this.state.rdsInstance.Engine
         })
 
-        this.setState({ users: res.data.map(e => e.user), loading: false })
+        window.delete1 = res
+        console.log('check res',res,username, this.state.rdsInstance.Endpoint.Address , this.state.rdsInstance.Engine)
+
+        if(this.state.rdsInstance.Engine === 'postgres' ){
+            this.setState({users:res.data.rows.map(e=>e.usename),loading:false})
+         }else{
+             this.setState({ users: res.data.map(e => e.user), loading: false })
+         }
 
         console.log('checkkkkk vaof on add user')
 
@@ -101,9 +120,10 @@ export default class RDSUserBox extends React.Component {
             username: this.state.isResetting,
             password: this.state.resetPassword,
             host: this.state.rdsInstance.Endpoint.Address,
-            resetPassword: true
+            resetPassword: true,
+            engine: this.state.rdsInstance.Engine
         })
-        this.setState({ users: res.data.map(e => e.user), loading: false, isResetting: false })
+        this.setState({ loading: false, isResetting: false })
 
     }
 
